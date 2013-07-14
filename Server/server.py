@@ -5,6 +5,10 @@ class Chat(Protocol):
 	def connectionMade(self):
 		self.factory.clients.append(self)
 		print "Someone is connected"
+	def connectionLost(self, reason):
+		self.factory.clients.remove(self)
+		print "A client is deconnected"
+
 
 factory = Factory()
 factory.protocol = Chat
