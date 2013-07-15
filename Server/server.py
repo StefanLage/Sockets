@@ -1,3 +1,5 @@
+import time
+from pykeyboard import PyKeyboard
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
 
@@ -19,13 +21,17 @@ class Chat(Protocol):
 				msg = self.name + " has joined"
 			elif command == "msg":
 				msg = self.name + ": " + content
-				
+			self.keyboard()
 			print msg
 
 			for c in self.factory.clients:
 				c.message(msg)
 	def message(self, msg):
 		self.transport.write(msg + '\n')
+	def keyboard(self):
+		k = PyKeyboard()
+		k.press_key(12)
+		k.release_key(12)
 
 factory = Factory()
 factory.protocol = Chat

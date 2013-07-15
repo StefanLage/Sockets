@@ -18,7 +18,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self initNetworkCommunication];
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,15 +33,21 @@
     [_inputMessageField release];
     [_tView release];
     [_chatView release];
+    [_ipServer release];
     [super dealloc];
 }
 
 - (IBAction)joinChat:(id)sender {
+    NSString *ipServer = [NSString stringWithFormat:@"%@", _ipServer.text];
+    NSArray *ls = [ipServer componentsSeparatedByString:@"."];
+    if([ls count] != 4){
+        return;
+    }
+    [self initNetworkCommunication];
     NSString *response = [NSString stringWithFormat:@"iam:%@", _inputNameField.text];
     NSData *data = [[NSData alloc] initWithData:[response dataUsingEncoding:NSASCIIStringEncoding]];
     [_outputSream write:[data bytes] maxLength:[data length]];
     // Swith to ChatView
-    //[self.view bringSubviewToFront:_chatView];
     [self.view addSubview:_chatView];
     [_chatView release];
 }
@@ -56,7 +61,7 @@
 - (void)initNetworkCommunication {
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
-    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"localhost", 80, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)_ipServer.text, 80, &readStream, &writeStream);
     self.inputStream = (NSInputStream *) readStream;
     self.outputSream = (NSOutputStream *) writeStream;
     // Opening the connection
