@@ -33,7 +33,11 @@
     [_joinView release];
     [super dealloc];
 }
+
 - (IBAction)joinChat:(id)sender {
+    NSString *response = [NSString stringWithFormat:@"iam:%@", _inputNameField.text];
+    NSData *data = [[NSData alloc] initWithData:[response dataUsingEncoding:NSASCIIStringEncoding]];
+    [_outputSream write:[data bytes] maxLength:[data length]];
 }
 
 - (void)initNetworkCommunication {
