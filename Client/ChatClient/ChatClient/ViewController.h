@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <NSStreamDelegate>
+@interface ViewController : UIViewController <NSStreamDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (retain, nonatomic) IBOutlet UIView *joinView;
 @property (retain, nonatomic) IBOutlet UITextField *inputNameField;
+@property (retain, nonatomic) IBOutlet UIView *chatView;
+@property (retain, nonatomic) IBOutlet UITextField *inputMessageField;
+@property (retain, nonatomic) IBOutlet UITableView *tView;
 
 // Streaming instances
 @property (retain, nonatomic) NSInputStream *inputStream;
 @property (retain, nonatomic) NSOutputStream *outputSream;
 
 - (IBAction)joinChat:(id)sender;
+- (IBAction)sendMessage:(id)sender;
 
 @end
