@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+@property (retain, nonatomic) IBOutlet UIView *joinView;
+@property (retain, nonatomic) IBOutlet UITextField *inputNameField;
+
+- (IBAction)joinChat:(id)sender;
 
 @end
