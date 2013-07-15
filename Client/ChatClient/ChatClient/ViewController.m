@@ -18,6 +18,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    [self initNetworkCommunication];
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,4 +35,20 @@
 }
 - (IBAction)joinChat:(id)sender {
 }
+
+- (void)initNetworkCommunication {
+    CFReadStreamRef readStream;
+    CFWriteStreamRef writeStream;
+    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"localhost", 80, &readStream, &writeStream);
+    self.inputStream = (NSInputStream *) readStream;
+    self.outputSream = (NSOutputStream *) writeStream;
+    // Opening the connection
+    [_inputStream setDelegate: self];
+    [_outputSream setDelegate: self];
+    [_inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode: NSDefaultRunLoopMode];
+    [_outputSream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode: NSDefaultRunLoopMode];
+    [_inputStream open];
+    [_outputSream open];
+}
+
 @end
